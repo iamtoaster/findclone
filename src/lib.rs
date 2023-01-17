@@ -17,16 +17,15 @@ pub struct AppArgs {
 pub fn run(args: AppArgs) -> Result<(), Box<dyn Error>> {
     let dir = read_dir(args.start_path)?;
     let regex = Regex::new(&args.regex)?;
-    for i in traverse_dir(dir, &regex) {
-        println!("{}", i);
-    }
+    
+    traverse_dir(dir, &regex);
 
     Ok(())
 }
 
-fn traverse_dir(dir: ReadDir, regex: &Regex) -> Vec<String> {
-    let mut result = Vec::new();
-    
+/// Recursively goes through the directory and prints all directories /files
+/// that match the supplied regex.
+fn traverse_dir(dir: ReadDir, regex: &Regex) {
     // Go through the directory contents
     for i in dir {
         match i {
@@ -37,14 +36,14 @@ fn traverse_dir(dir: ReadDir, regex: &Regex) -> Vec<String> {
                         if file_type.is_dir() {
                             match read_dir(entry.path()) {
                                 Ok(new_dir) => {
-                                    result.append(&mut traverse_dir(new_dir, &regex))
+                                    traverse_dir(new_dir, &regex)
                                 },
                                 Err(err) => println!("Failed to open directory {:?} with following error: {}, skipping.", entry.path(), err),
                             }
                         } else {
                             if let Some(path) = entry.path().to_str() {
                                 if regex.is_match(path) {
-                                    result.push(path.to_string());
+                                    println!("{}", path.to_string());
                                 }
                             }
                         }
@@ -57,6 +56,4 @@ fn traverse_dir(dir: ReadDir, regex: &Regex) -> Vec<String> {
             },
         }
     }
-
-    result
 }
