@@ -1,4 +1,4 @@
-use std::{error::Error, fs::{read_dir, ReadDir}};
+use std::{error::Error, fs::{read_dir}};
 
 use clap::Parser;
 use regex::Regex;
@@ -19,14 +19,6 @@ pub fn run(args: AppArgs) -> Result<(), Box<dyn Error>> {
     let dir = read_dir(args.start_path)?;
     let regex = Regex::new(&args.regex)?;
     
-    traverse_dir(dir, &regex);
-
-    Ok(())
-}
-
-/// Recursively goes through the directory and prints all directories /files
-/// that match the supplied regex.
-fn traverse_dir(dir: ReadDir, regex: &Regex) {
     let mut dirs = vec![dir];
 
     loop {
@@ -70,4 +62,6 @@ fn traverse_dir(dir: ReadDir, regex: &Regex) {
             }
         }
     }
+
+    Ok(())
 }
