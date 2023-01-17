@@ -5,8 +5,8 @@ use regex::Regex;
 
 #[derive(Parser, Debug)]
 #[command(author, version )]
-#[command(about = "GNU find clone made in rust as a programming exercise.")]
-#[command(long_about = "GNU find clone made in rust. This app is not meant for actual use, and was made as an exercise in programming.")]
+#[command(about = "A tiny GNU find clone made in rust as a programming exercise.")]
+#[command(long_about = "GNU find clone made in rust. This app is not meant for actual use, and was made as an exercise in programming. It only supports the most basic function of find that is finding files using a regex and their path.")]
 pub struct AppArgs {
     /// A path from which the search will start
     start_path: String,

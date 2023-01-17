@@ -1,0 +1,5 @@
+## Tiny basic find clone.
+
+This little app was written as an exercise in programming. 
+This app allows to search files or directories using their path, 
+by checking if the regex supplied on the command line matches with it.
